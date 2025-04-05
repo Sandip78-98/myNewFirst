@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Video Player</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div class="theme-toggle">
+    <button id="theme-btn">🌓</button>
+  </div>
+    
+  <div class="container">
+    <a href="index.html" class="back-button">← Back to Search</a>
+    <h2 id="video-title"></h2>
+    <div id="video-container"></div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get("id");
+    const title = decodeURIComponent(params.get("title") || "");
+
+    document.getElementById("video-title").textContent = title;
+
+    if (id) {
+      const iframe = document.createElement("iframe");
+      iframe.src = `https://www.eporner.com/embed/${id}/`;
+      iframe.width = "100%";
+      iframe.height = "480";
+      iframe.frameBorder = "0";
+      iframe.allowFullscreen = true;
+
+      document.getElementById("video-container").appendChild(iframe);
+    }
+  </script>
+</body>
+</html>

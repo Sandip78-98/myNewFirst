@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Eporner Video Browser</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div class="theme-toggle">
+    <button id="theme-btn">🌓</button>
+  </div>
+
+  <div class="hero">
+    <div class="video-bg">
+      <video id="hero-video" autoplay muted loop playsinline></video>
+    </div>
+    <div class="overlay">
+      <h1>Eporner Video Browser</h1>
+      <form id="search-form">
+        <input type="text" id="search-input" placeholder="Search videos..." required />
+        <button type="submit">🔍</button>
+      </form>
+    </div>
+  </div>
+  
+  
+
+  <div class="container">
+    <div id="videos-container" class="grid"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
