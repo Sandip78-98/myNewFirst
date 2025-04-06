@@ -1,4 +1,4 @@
-/* General Reset */
+/* Reset */
 * {
   margin: 0;
   padding: 0;
@@ -7,63 +7,63 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: #111;
+  background: #0d0d0d;
   color: #fff;
   min-height: 100vh;
   overflow-x: hidden;
-  transition: background 0.3s, color 0.3s;
+  transition: background 0.4s, color 0.4s;
 }
 
 /* Hero Section */
 .hero {
   position: relative;
-  height: 360px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   height: 100vh;
   max-height: 500px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  background: linear-gradient(to right, rgba(0,0,0,0.6), rgba(25,25,25,0.8));
 }
 
-
-.video-bg video,
 .video-bg iframe {
-  position: absolute;
-  top: 0;
-  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  z-index: 0;
-  pointer-events: none;
+  border: none;
+  filter: brightness(0.6);
 }
 
-
-.hero .overlay {
+.overlay {
   position: relative;
   z-index: 2;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.4), #111);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 20px;
+  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.4);
+  animation: fadeIn 1.5s ease;
 }
 
 .hero h1 {
-  font-size: 2rem;
+  font-size: 2.5rem;
   margin-bottom: 20px;
-  color: #fff;
+  color: #f94b6a;
+  text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
 }
 
 #search-form {
   display: flex;
   align-items: center;
-  width: 100%;
   max-width: 500px;
+  width: 100%;
+  box-shadow: 0 0 12px rgba(0,0,0,0.4);
+  border-radius: 8px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(5px);
 }
 
 #search-input {
@@ -71,8 +71,9 @@ body {
   padding: 12px;
   font-size: 16px;
   border: none;
-  border-radius: 6px 0 0 6px;
   outline: none;
+  background: transparent;
+  color: #fff;
 }
 
 #search-form button {
@@ -81,16 +82,15 @@ body {
   border: none;
   background: #f94b6a;
   color: white;
-  border-radius: 0 6px 6px 0;
   cursor: pointer;
   transition: background 0.3s;
 }
 
 #search-form button:hover {
-  background: #e03e5a;
+  background: #ff6e8c;
 }
 
-/* Video Grid */
+/* Container & Cards */
 .container {
   padding: 20px;
   max-width: 1400px;
@@ -103,32 +103,36 @@ body {
   gap: 20px;
 }
 
-
 .card {
-  background: #1a1a1a;
-  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  border-radius: 16px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  transition: transform 0.2s ease;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
+  animation: fadeInUp 0.5s ease forwards;
+  opacity: 0;
 }
 
 .card:hover {
-  transform: scale(1.03);
+  transform: translateY(-6px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.6);
 }
 
 .card img {
   width: 100%;
   height: 150px;
   object-fit: cover;
+  display: block;
 }
 
 .card-title {
-  padding: 10px;
-  font-size: 14px;
+  padding: 12px;
+  font-size: 15px;
   text-align: center;
-  background: #222;
-  color: #eee;
+  background: rgba(0, 0, 0, 0.6);
+  color: #ffcad4;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -143,47 +147,41 @@ body {
 }
 
 #theme-btn {
-  background: #f94b6a;
+  background: linear-gradient(to right, #f94b6a, #ffb347);
   color: #fff;
   border: none;
   border-radius: 50%;
-  padding: 10px 14px;
+  padding: 12px 16px;
   font-size: 18px;
   cursor: pointer;
-  transition: background 0.3s;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  transition: transform 0.3s;
 }
 
 #theme-btn:hover {
-  background: #e03e5a;
+  transform: rotate(20deg);
 }
 
 /* Light Theme */
 body.light {
-  background: #f5f5f5;
+  background: #fafafa;
   color: #222;
 }
 
 body.light .card {
-  background: #fff;
-  color: #111;
+  background: rgba(255,255,255,0.8);
 }
 
 body.light .card-title {
   background: #eee;
-  color: #111;
+  color: #333;
 }
 
-body.light .hero .overlay {
-  background: linear-gradient(to bottom, rgba(255,255,255,0.6), #f5f5f5);
-}
-
-body.light .hero h1,
-body.light .card-title {
-  color: #000;
+body.light .overlay {
+  background: rgba(255,255,255,0.6);
 }
 
 body.light #search-input {
-  background: #fff;
   color: #000;
 }
 
@@ -191,24 +189,50 @@ body.light #search-form button {
   background: #f94b6a;
 }
 
-body.light #search-form button:hover {
-  background: #e03e5a;
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* Responsive Tweaks */
+@keyframes fadeInUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Loading shimmer */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+  background: #2b2b2b;
+}
+
+.shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -150px;
+  width: 150px;
+  height: 100%;
+  background: linear-gradient(to right, transparent 0%, rgba(255,255,255,0.2) 50%, transparent 100%);
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { left: -150px; }
+  100% { left: 100%; }
+}
+
+/* Responsive */
 @media (max-width: 768px) {
   .hero {
     height: 300px;
   }
-
   .hero h1 {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
   }
-
   .card img {
-    height: 120px;
+    height: 130px;
   }
-
   .card-title {
     font-size: 13px;
   }
@@ -216,16 +240,15 @@ body.light #search-form button:hover {
 
 @media (max-width: 480px) {
   #search-form {
-    flex-direction: column;
-    gap: 10px;
+    flex-direction: row;
   }
-
   #search-input, #search-form button {
-    
-    border-radius: 6px;
+    font-size: 14px;
   }
-
   .grid {
-    grid-template-columns: repeat(1, 1fr);
+    grid-template-columns: 1fr;
+  }
+  .card img {
+    height: 200px;
   }
 }

@@ -3,36 +3,97 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Video Player</title>
+  <title>Watch Video | VideoHub</title>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
   <div class="theme-toggle">
     <button id="theme-btn">🌓</button>
   </div>
-    
+
   <div class="container">
-    <a href="index.html" class="back-button">← Back to Search</a>
-    <h2 id="video-title"></h2>
-    <div id="video-container"></div>
+    <a href="index.html" class="back-button" style="display:inline-block;margin:20px 0;color:#f94b6a;text-decoration:none;font-weight:bold;">← Back to Home</a>
+    <h2 id="video-title" style="margin-bottom: 20px;"></h2>
+
+    <div id="video-container" style="margin-bottom: 40px;">
+      <!-- Video iframe will be injected here -->
+    </div>
+
+    <h3 style="margin-bottom: 20px;">You may also like</h3>
+    <div id="suggested-videos" class="grid"></div>
   </div>
 
   <script>
     const params = new URLSearchParams(window.location.search);
     const id = params.get("id");
     const title = decodeURIComponent(params.get("title") || "");
-
     document.getElementById("video-title").textContent = title;
 
     if (id) {
       const iframe = document.createElement("iframe");
-      iframe.src = `https://www.eporner.com/embed/${id}/`;
+      iframe.src = `https://www.eporner.com/embed/${id}/?autoplay=1&mute=1`;
       iframe.width = "100%";
       iframe.height = "480";
       iframe.frameBorder = "0";
       iframe.allowFullscreen = true;
-
+      iframe.allow = "autoplay; encrypted-media";
+      iframe.setAttribute("muted", "");
+      iframe.setAttribute("autoplay", "");
+      iframe.setAttribute("playsinline", "");
       document.getElementById("video-container").appendChild(iframe);
+    }
+
+    async function fetchSuggestedVideos() {
+      const url = "https://www.eporner.com/api/v2/video/search/?per_page=20&thumbsize=big&order=random&lq=1&format=json";
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+
+        // Filter out the currently playing video and limit to 12
+        const filtered = data.videos.filter(video => video.id !== id).slice(0, 12);
+        displaySuggested(filtered);
+      } catch (err) {
+        console.error("Error fetching suggested videos:", err);
+      }
+    }
+
+    function displaySuggested(videos) {
+      const container = document.getElementById("suggested-videos");
+      container.innerHTML = "";
+      videos.forEach(video => {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <img src="${video.thumbs?.[0]?.src}" alt="${video.title}" />
+          <div class="card-title">${video.title}</div>
+        `;
+        card.addEventListener("click", () => {
+          window.location.href = `player.html?id=${video.id}&title=${encodeURIComponent(video.title)}`;
+        });
+        container.appendChild(card);
+      });
+    }
+
+    fetchSuggestedVideos();
+
+    // Theme toggle
+    const themeBtn = document.getElementById("theme-btn");
+    function applyTheme(theme) {
+      if (theme === "light") {
+        document.body.classList.add("light");
+      } else {
+        document.body.classList.remove("light");
+      }
+    }
+    const savedTheme = localStorage.getItem("theme") || "dark";
+    applyTheme(savedTheme);
+    if (themeBtn) {
+      themeBtn.addEventListener("click", () => {
+        const current = document.body.classList.contains("light") ? "light" : "dark";
+        const newTheme = current === "light" ? "dark" : "light";
+        localStorage.setItem("theme", newTheme);
+        applyTheme(newTheme);
+      });
     }
   </script>
 </body>

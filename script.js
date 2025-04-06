@@ -1,4 +1,4 @@
-const API_URL = "https://www.eporner.com/api/v2/video/search/?per_page=30&thumbsize=big&order=top-weekly&gay=1&lq=1&format=json";
+const API_URL = "https://www.eporner.com/api/v2/video/search/?per_page=30&thumbsize=big&order=top-weekly&lq=1&format=json";
 const videosContainer = document.getElementById("videos-container");
 const form = document.getElementById("search-form");
 const input = document.getElementById("search-input");
@@ -23,7 +23,6 @@ async function fetchVideos(query = "") {
   }
 }
 
-// Display thumbnails
 function displayVideos(videos) {
   videosContainer.innerHTML = "";
   videos.forEach(video => {
@@ -42,36 +41,41 @@ function displayVideos(videos) {
 }
 
 function setRandomBackground(videos) {
-  const heroVideo = document.getElementById("hero-video");
-  const parent = heroVideo?.parentElement;
-  if (!heroVideo || !parent || videos.length === 0) return;
+  const heroVideoContainer = document.getElementById("hero-video");
+  if (!heroVideoContainer || videos.length === 0) return;
 
   const randomVideo = videos[Math.floor(Math.random() * videos.length)];
   const embedId = randomVideo.id;
-  const mp4Url = `https://www.eporner.com/embed/${embedId}/?autoplay=1&mute=1`;
+  const embedUrl = `https://www.eporner.com/embed/${embedId}/?autoplay=1&mute=1`;
 
-  // Remove old video element
-  heroVideo.remove();
+  heroVideoContainer.innerHTML = "";
 
-  // Create iframe and append
   const iframe = document.createElement("iframe");
-  iframe.src = mp4Url;
+  iframe.src = embedUrl;
   iframe.frameBorder = "0";
   iframe.allowFullscreen = true;
   iframe.allow = "autoplay; encrypted-media";
-  iframe.style.cssText = "width:100vw;height:100%;position:absolute;top:0;left:0;z-index:0;pointer-events:none;";
-  
-  parent.appendChild(iframe);
+  iframe.setAttribute("muted", "");
+  iframe.setAttribute("autoplay", "");
+  iframe.setAttribute("playsinline", "");
+  iframe.style.cssText = `
+    width: 100vw;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    pointer-events: none;
+  `;
+
+  heroVideoContainer.appendChild(iframe);
 }
 
-
-// Random search words
 function getRandomQuery() {
-  const keywords = ["fun", "hot", "couple", "asian", "massage", "beach", "shower", "kiss", "dance", "party"];
+  const keywords = ["fun", "hot", "couple", "asian", "american", "beach", "dildo", "kiss", "sex", "lesbian"];
   return keywords[Math.floor(Math.random() * keywords.length)];
 }
 
-// Handle form submit
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   const query = input.value.trim();
@@ -80,13 +84,11 @@ form.addEventListener("submit", (e) => {
   }
 });
 
-// Reset input field on load
 window.addEventListener("DOMContentLoaded", () => {
   input.value = "";
-  fetchVideos(); // load random videos
+  fetchVideos();
 });
 
-// Theme toggle
 const themeBtn = document.getElementById("theme-btn");
 
 function applyTheme(theme) {
