@@ -43,25 +43,25 @@ function displayVideos(videos) {
 
 function setRandomBackground(videos) {
   const heroVideo = document.getElementById("hero-video");
-  if (!heroVideo || videos.length === 0) return;
+  const parent = heroVideo?.parentElement;
+  if (!heroVideo || !parent || videos.length === 0) return;
 
-  // Try to find a video with a good quality MP4
   const randomVideo = videos[Math.floor(Math.random() * videos.length)];
   const embedId = randomVideo.id;
-
-  // Eporner does not provide direct MP4, so use their low quality stream workaround
   const mp4Url = `https://www.eporner.com/embed/${embedId}/?autoplay=1&mute=1`;
 
-  // Use an iframe as fallback (in case video tag doesn't work)
-  heroVideo.outerHTML = `
-    <iframe 
-      src="${mp4Url}" 
-      frameborder="0" 
-      allowfullscreen 
-      allow="autoplay; encrypted-media"
-      style="width:100vw;height:100%;position:absolute;top:0;left:0;z-index:0;pointer-events:none;"
-    ></iframe>
-  `;
+  // Remove old video element
+  heroVideo.remove();
+
+  // Create iframe and append
+  const iframe = document.createElement("iframe");
+  iframe.src = mp4Url;
+  iframe.frameBorder = "0";
+  iframe.allowFullscreen = true;
+  iframe.allow = "autoplay; encrypted-media";
+  iframe.style.cssText = "width:100vw;height:100%;position:absolute;top:0;left:0;z-index:0;pointer-events:none;";
+  
+  parent.appendChild(iframe);
 }
 
 

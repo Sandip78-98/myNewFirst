@@ -99,9 +99,10 @@ body {
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 20px;
 }
+
 
 .card {
   background: #1a1a1a;
@@ -225,6 +226,6 @@ body.light #search-form button:hover {
   }
 
   .grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(1, 1fr);
   }
 }
